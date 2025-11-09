@@ -6,5 +6,5 @@
 
 \- HelloGitHub 示例
 
-\- 后续练习：Calculator、集合、文件操作
+\- Calculator、集合、文件操作
 
