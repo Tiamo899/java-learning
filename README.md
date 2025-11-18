@@ -6,10 +6,10 @@
 ## 📂 学习目录
 - [day001 - HelloGitHub](./day001-HelloGitHub/HelloGitHub.java)
 - [day002 - Calculator](./day002-Calculator/Calculator.java)
-- day003 - 集合练习 (待补充)
+- [day003-OOP-Basics](./day003-OOP-Basics/Person.java)
 
 ## 🎯 学习目标
 - 熟悉 Java 基础语法
 - 掌握面向对象编程
 - 学习集合与文件操作
-- 完成一个小型项目
+
