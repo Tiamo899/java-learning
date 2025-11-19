@@ -1,0 +1,8 @@
+spring:
+  # 暂时关闭数据库自动连接（我们后面再连）
+  datasource:
+    url:
+    username:
+    password:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
