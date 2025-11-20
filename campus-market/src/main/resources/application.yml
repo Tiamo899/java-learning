@@ -1,8 +1,14 @@
+server:
+  port: 8080
+
 spring:
-  # 暂时关闭数据库自动连接（我们后面再连）
   datasource:
-    url:
-    username:
-    password:
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+    url: jdbc:mysql://localhost:3306/campus_market?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl   # 控制台打印SQL，超爽
+  mapper-locations: classpath*:mapper/**/*.xml
