@@ -1,0 +1,41 @@
+### 环境变量配置
+@host = localhost:8080
+@contentType = application/json
+
+### =================================
+### 用户模块测试
+### =================================
+
+### 1. 用户注册
+POST http://{{host}}/user/register
+Content-Type: {{contentType}}
+
+{
+  "username": "tiamo",
+  "password": "123456",
+  "nickname": "测试",
+  "phone": "13800138000"
+}
+
+### 2. 用户登录
+POST http://{{host}}/user/login
+Content-Type: application/x-www-form-urlencoded
+
+username=zhangsan&password=123456
+
+### 3. 测试重复注册
+POST http://{{host}}/user/register
+Content-Type: {{contentType}}
+
+{
+  "username": "tiamo",
+  "password": "123456",
+  "nickname": "张三2",
+  "phone": "13800138001"
+}
+
+### 4. 测试错误密码登录
+POST http://{{host}}/user/login
+Content-Type: application/x-www-form-urlencoded
+
+username=zhangsan&password=wrongpassword
