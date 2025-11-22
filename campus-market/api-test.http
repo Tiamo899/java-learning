@@ -39,3 +39,34 @@ POST http://{{host}}/user/login
 Content-Type: application/x-www-form-urlencoded
 
 username=zhangsan&password=wrongpassword
+
+### 3. 发布商品（多图）
+POST http://{{host}}/goods/publish
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="title"
+
+苹果手机低价出
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="price"
+
+1999.00
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="description"
+
+9成新，自用二手
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="images"; filename="1.jpg"
+Content-Type: image/jpeg
+
+< ./test-images/1.jpg   # 你随便放一张图到项目根目录 test-images 文件夹
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="images"; filename="2.jpg"
+Content-Type: image/jpeg
+
+< ./test-images/2.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### 4. 查询商品列表
+GET http://{{host}}/goods/list?keyword=苹果
