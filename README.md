@@ -27,3 +27,9 @@
 
 技术栈：Spring Boot 3 + MyBatis-Plus + MySQL + Redis + JWT + BCrypt + Security
 
+
+## 项目进度（2025.11.22 完成）
+- [x] 商品发布（支持多图上传）
+- [x] 商品分页条件查询
+- [x] IDEA HTTP Client 完整测试用例（api-test.http 一键运行全部接口）
+- [x] MySQL + Redis + 文件上传 + 全局异常处理
