@@ -5,10 +5,44 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/campus_market?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
     username: root
-    password: 123456
+    password: 123456  # ←←←← 改成你自己的密码！！！
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  # 文件上传配置（支持大文件、多图）
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 100MB
+
+  # Redis（后面用得着，先配好）
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:       # 如果没密码留空就行
+      database: 0
+
+# MyBatis-Plus 配置（Spring Boot 3 + 3.5.9 终极最稳版）
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl   # 控制台打印SQL，超爽
-  mapper-locations: classpath*:mapper/**/*.xml
+  global-config:
+    db-config:
+      logic-delete-field: deleted        # 全局逻辑删除字段名（后面用）
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+      id-type: auto                      # 主键自增
+
+# 自定义配置（文件上传路径）
+app:
+  upload:
+    # 改成你电脑上任意一个存在的文件夹，记得末尾带斜杠！！！
+    path: D:\GitHub\campus-market-upload
+    # 后面我们会用 Nginx 或者直接本地访问，路径是 http://localhost:8080/images/xxx.jpg
+    static-mapping: /images/**
+
+# 开发阶段关闭 Spring Security 的默认登录页（你已经配了 SecurityConfig，这里再保险一次）
+security:
+  ignored: /**
+
+
