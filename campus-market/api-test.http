@@ -40,14 +40,14 @@ Content-Type: application/x-www-form-urlencoded
 
 username=zhangsan&password=wrongpassword
 
-### 3. 发布商品（多图）
+### 3. 发布商品（多图）—— 必须先建 D:\GitHub\java-learning\test-images\ 文件夹并放两张图
 POST http://{{host}}/goods/publish
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="title"
 
-苹果手机低价出
+电脑和键盘低价出
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="price"
 
@@ -60,7 +60,7 @@ Content-Disposition: form-data; name="description"
 Content-Disposition: form-data; name="images"; filename="1.jpg"
 Content-Type: image/jpeg
 
-< ./test-images/1.jpg   # 你随便放一张图到项目根目录 test-images 文件夹
+< ./test-images/1.jpg
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="images"; filename="2.jpg"
 Content-Type: image/jpeg
