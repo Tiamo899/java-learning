@@ -70,3 +70,10 @@ Content-Type: image/jpeg
 
 ### 4. 查询商品列表
 GET http://{{host}}/goods/list?keyword=苹果
+
+### 1. 登录获取 token（先跑这个！！！）
+
+POST http://{{host}}/user/login
+Content-Type: application/x-www-form-urlencoded
+
+username=tiamo&password=123456
