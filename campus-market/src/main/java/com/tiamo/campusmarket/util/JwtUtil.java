@@ -1,12 +1,16 @@
 package com.tiamo.campusmarket.util;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+
+import java.security.Key;
 import java.util.Date;
 
 public class JwtUtil {
-    private static final String SECRET = "tiamo899-campus-market-2026";
+
+    // 必须 256 位（32 字节）以上的 key，HS512 需要 512 位
+    private static final Key KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512);
     private static final long EXPIRE = 1000 * 60 * 60 * 24 * 7; // 7天
 
     private static final ThreadLocal<Long> USER_HOLDER = new ThreadLocal<>();
@@ -16,13 +20,17 @@ public class JwtUtil {
                 .setSubject(userId.toString())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRE))
-                .signWith(SignatureAlgorithm.HS512, SECRET)
+                .signWith(KEY)  // 直接用安全生成的 key！！！
                 .compact();
     }
 
     public static Long getUserId(String token) {
-        Claims claims = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
-        return Long.parseLong(claims.getSubject());
+        return Long.parseLong(Jwts.parserBuilder()
+                .setSigningKey(KEY)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject());
     }
 
     public static void setCurrentUser(Long userId) {
