@@ -1,61 +1,58 @@
-### 环境变量配置
+### 环境变量
 @host = localhost:8080
 @contentType = application/json
 
-### =================================
-### 用户模块测试
-### =================================
+# 这行留空就行，后面会自动填 token
+@token =
 
-### 1. 用户注册
+### ========================================
+### 一键登录 + 自动提取 token（以后只点这一个就行！）
+POST http://{{host}}/user/login
+Content-Type: {{contentType}}
+
+{
+  "username": "tiamo999",
+  "password": "123456"
+}
+
+> {%
+    let body = response.body;
+    let start = body.indexOf("token: ") + 7;
+    let token = body.substring(start).trim();
+    client.global.set("token", token);
+    client.log("登录成功，token 自动更新（长度 " + token.length + "）");
+%}
+
+### ========================================
+### 下面所有接口直接使用 {{token}}，永远不会过期、不会卡死！
+### ========================================
+
+### 注册（一般只用一次）
 POST http://{{host}}/user/register
 Content-Type: {{contentType}}
 
 {
-  "username": "tiamo",
+  "username": "newuser2025",
   "password": "123456",
-  "nickname": "测试",
-  "phone": "13800138000"
+  "nickname": "新用户",
+  "phone": "17777777777"
 }
 
-### 2. 用户登录
-POST http://{{host}}/user/login
-Content-Type: application/x-www-form-urlencoded
-
-username=zhangsan&password=123456
-
-### 3. 测试重复注册
-POST http://{{host}}/user/register
-Content-Type: {{contentType}}
-
-{
-  "username": "tiamo",
-  "password": "123456",
-  "nickname": "张三2",
-  "phone": "13800138001"
-}
-
-### 4. 测试错误密码登录
-POST http://{{host}}/user/login
-Content-Type: application/x-www-form-urlencoded
-
-username=zhangsan&password=wrongpassword
-
-### 3. 发布商品（多图）—— 必须先建 D:\GitHub\java-learning\test-images\ 文件夹并放两张图
+### 发布商品 —— 标准写法（推荐！后端大多数都是这种）
 POST http://{{host}}/goods/publish
+Authorization: Bearer {{token}}
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="title"
+Content-Disposition: form-data; name="dto"
+Content-Type: application/json
 
-电脑和键盘低价出
-------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="price"
-
-1999.00
-------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="description"
-
-9成新，自用二手
+{
+  "title": "【99新】MacBook Pro M3 16+512 低价出",
+  "price": 8999,
+  "description": "本地自提，当面交易，支持验机，有发票",
+  "categoryId": 1
+}
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="images"; filename="1.jpg"
 Content-Type: image/jpeg
@@ -68,12 +65,12 @@ Content-Type: image/jpeg
 < ./test-images/2.jpg
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
-### 4. 查询商品列表
-GET http://{{host}}/goods/list?keyword=苹果
+### 获取商品列表
+GET http://{{host}}/goods/list?keyword=MacBook
 
-### 1. 登录获取 token（先跑这个！！！）
+### 我的发布
+GET http://{{host}}/goods/my/publish
+Authorization: Bearer {{token}}
 
-POST http://{{host}}/user/login
-Content-Type: application/x-www-form-urlencoded
-
-username=tiamo&password=123456
+### 商品详情（替换 1 为实际商品 id）
+GET http://{{host}}/goods/detail/1
