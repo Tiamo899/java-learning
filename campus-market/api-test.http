@@ -3,12 +3,11 @@
 @contentType = application/json
 
 # 这行留空就行，后面会自动填 token
-@token =
+@token =eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzIiwiaWF0IjoxNzY0MzQ2ODU3LCJleHAiOjE3NjI2NDM4OTB9.ga2ofrtVe56FlHL7KWSDmPayLvTrDVEGSpgNagT3SxjfAfaECYAAJETKPDaO00-tPUcQXr5lmnFNOwiHVUkV8w
 
-### ========================================
-### 一键登录 + 自动提取 token（以后只点这一个就行！）
+### 一键登录 + 自动提取 token（万能版，兼容所有 Apifox）
 POST http://{{host}}/user/login
-Content-Type: {{contentType}}
+Content-Type: application/json
 
 {
   "username": "tiamo999",
@@ -16,13 +15,15 @@ Content-Type: {{contentType}}
 }
 
 > {%
-    let body = response.body;
-    let start = body.indexOf("token: ") + 7;
-    let token = body.substring(start).trim();
-    client.global.set("token", token);
-    client.log("登录成功，token 自动更新（长度 " + token.length + "）");
+    // 这是万能写法，所有版本都支持！
+    const response = pm.response.json();
+    if (response.code === 200 && response.data && response.data.token) {
+        pm.environment.set("token", response.data.token);
+        client.log("登录成功！token 已保存，长度：" + response.data.token.length);
+    } else {
+        client.log("登录失败：" + JSON.stringify(response));
+    }
 %}
-
 ### ========================================
 ### 下面所有接口直接使用 {{token}}，永远不会过期、不会卡死！
 ### ========================================
