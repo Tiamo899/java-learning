@@ -3,7 +3,7 @@
 @contentType = application/json
 
 # 这行留空就行，后面会自动填 token
-@token =eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzIiwiaWF0IjoxNzY0MzQ2ODU3LCJleHAiOjE3NjI2NDM4OTB9.ga2ofrtVe56FlHL7KWSDmPayLvTrDVEGSpgNagT3SxjfAfaECYAAJETKPDaO00-tPUcQXr5lmnFNOwiHVUkV8w
+@token =eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzIiwiaWF0IjoxNzY0NTA4NTA0LCJleHAiOjE3NjI4MDU1Mzd9.BLE4D1X8s1GqOg2U-jGiCBEZ1ysEqgntBd1PTJQRxU4yjl0Zsi3AdZuU8CpUvPM6-w4kUZ7bnnFB_SG8H_4PeQ
 
 ### 一键登录 + 自动提取 token（万能版，兼容所有 Apifox）
 POST http://{{host}}/user/login

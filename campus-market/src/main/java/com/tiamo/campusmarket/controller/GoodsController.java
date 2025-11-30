@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -28,12 +27,20 @@ public class GoodsController {
     @Autowired private FileUploadUtil fileUploadUtil;
     @Autowired private RedisTemplate<String, Object> redisTemplate;
 
-    // 发布商品 - 已解决 IOException
+    // ✅ 修复后的发布商品接口
     @PostMapping("/publish")
-    public Result<String> publish(@RequestPart GoodsPublishDto dto) {
+    public Result<String> publish(
+            @RequestPart("dto") GoodsPublishDto dto,
+            @RequestPart(value = "images", required = false) List<MultipartFile> images
+    ) {
+        System.out.println("=== 发布商品接口被调用 ===");
+        System.out.println("DTO: " + dto);
+        System.out.println("图片数量: " + (images == null ? 0 : images.size()));
+
         Long userId = JwtUtil.getCurrentUser();
         if (userId == null) return Result.error("请先登录");
 
+        // 插入商品基本信息
         Goods goods = new Goods();
         goods.setUserId(userId);
         goods.setTitle(dto.getTitle());
@@ -42,14 +49,20 @@ public class GoodsController {
         goods.setCategoryId(dto.getCategoryId());
         goodsMapper.insert(goods);
 
-        // 图片上传 + 捕获异常
-        if (dto.getImages() != null && !dto.getImages().isEmpty()) {
-            for (int i = 0; i < dto.getImages().size(); i++) {
-                MultipartFile file = dto.getImages().get(i);
-                if (file.isEmpty()) continue;
+        System.out.println("商品插入成功，ID: " + goods.getId());
+
+        // 处理图片上传
+        if (images != null && !images.isEmpty()) {
+            for (int i = 0; i < images.size(); i++) {
+                MultipartFile file = images.get(i);
+                if (file.isEmpty()) {
+                    System.out.println("第 " + (i + 1) + " 张图片为空，跳过");
+                    continue;
+                }
 
                 try {
-                    String url = fileUploadUtil.upload(file);  // 这行会抛 IOException
+                    String url = fileUploadUtil.upload(file);
+                    System.out.println("第 " + (i + 1) + " 张图片上传成功: " + url);
 
                     GoodsImage img = new GoodsImage();
                     img.setGoodsId(goods.getId());
@@ -59,18 +72,19 @@ public class GoodsController {
                     imageMapper.insert(img);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    return Result.error("第" + (i + 1) + "张图片上传失败");
+                    return Result.error("第 " + (i + 1) + " 张图片上传失败: " + e.getMessage());
                 }
             }
         }
-        return Result.success("发布成功！商品id：" + goods.getId());
+
+        return Result.success("发布成功！商品ID: " + goods.getId());
     }
 
-    // 商品列表
+    // 其他方法保持不变...
     @GetMapping("/list")
     public Result<Page<Goods>> list(@RequestParam(defaultValue = "1") int page,
                                     @RequestParam(defaultValue = "10") int size,
-    String keyword, Long categoryId) {
+                                    String keyword, Long categoryId) {
         Page<Goods> p = new Page<>(page, size);
         LambdaQueryWrapper<Goods> w = new LambdaQueryWrapper<>();
         w.eq(Goods::getStatus, 1);
@@ -80,7 +94,6 @@ public class GoodsController {
         return Result.success(goodsMapper.selectPage(p, w));
     }
 
-    // 商品详情 + 浏览量 +1
     @GetMapping("/detail/{id}")
     public Result<Goods> detail(@PathVariable Long id) {
         Goods goods = goodsMapper.selectById(id);
@@ -94,7 +107,6 @@ public class GoodsController {
         return Result.success(goods);
     }
 
-    // 我的发布
     @GetMapping("/my/publish")
     public Result<List<Goods>> myPublish() {
         Long userId = JwtUtil.getCurrentUser();

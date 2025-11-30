@@ -12,6 +12,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.io.PrintWriter;
 
+
 @Component
 public class JwtInterceptor implements HandlerInterceptor {
 
