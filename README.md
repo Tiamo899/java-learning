@@ -34,7 +34,7 @@
 - [x] IDEA HTTP Client 完整测试用例（api-test.http 一键运行全部接口）
 - [x] MySQL + Redis + 文件上传 + 全局异常处理
 
-## 项目进度）
+## 项目进度
 用户注册登录（JWT + BCrypt + Security + 拦截器 + ThreadLocal）
 - 商品发布（真正登录态 + 多图上传 + 真实落库）
 - 我的发布 / 商品分页条件查询
