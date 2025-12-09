@@ -39,6 +39,6 @@
 - 商品发布（真正登录态 + 多图上传 + 真实落库）
 - 我的发布 / 商品分页条件查询
 - 全局统一返回 Result + 全局异常处理
-- IDEA HTTP Client   完整测试用例（api-test.http 一键运行全部接口）
+- IDEA HTTP Client  完整测试用例（api-test.http 一键运行全部接口）
 
 
