@@ -30,6 +30,6 @@ public class ArrayListDemo {
                 list.remove(i);
             }
         }
-        System.out.println(list);
+        System.out.println("删除后的列表为"+list);
     }
 }
