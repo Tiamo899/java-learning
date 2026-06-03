@@ -2,8 +2,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 public class ContactManger {
 
-        private static ArrayList<Contact> contacts = new ArrayList<>();
-        private static Scanner scanner = new Scanner(System.in);
+        private static  ArrayList<Contact> contacts = new ArrayList<>();
+        private static  Scanner scanner = new Scanner(System.in);
         public static void main(String[] args) {
             while (true) {
                 System.out.println("1. 添加联系人");
