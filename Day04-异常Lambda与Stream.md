@@ -280,16 +280,16 @@ System.out.println(multiply.apply(3, 5));  // 15
 
 ```java
 @FunctionalInterface
-interface Calculator {
+interface Calculator2 {
     double calculate(double a, double b);
 }
 
 public class LambdaDemo {
     public static void main(String[] args) {
-        Calculator add = (a, b) -> a + b;
-        Calculator subtract = (a, b) -> a - b;
-        Calculator multiply = (a, b) -> a * b;
-        Calculator divide = (a, b) -> {
+        Calculator2 add = (a, b) -> a + b;
+        Calculator2 subtract = (a, b) -> a - b;
+        Calculator2 multiply = (a, b) -> a * b;
+        Calculator2 divide = (a, b) -> {
             if (b == 0) throw new ArithmeticException("除数不能为0");
             return a / b;
         };

@@ -5,7 +5,7 @@
 
 ## 📂 学习目录
 - [day001 - HelloGitHub](./day001-HelloGitHub/HelloGitHub.java)
-- [day002 - Calculator](./day002-Calculator/Calculator.java)
+- [day002 - Calculator2](./day002-Calculator/Calculator.java)
 - [day003-OOP-Basics](./day003-OOP-Basics/Person.java)
 
 ## 🎯 学习目标
